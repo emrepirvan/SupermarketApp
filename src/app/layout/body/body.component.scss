@@ -1,0 +1,23 @@
+tr > th:last-child {
+  max-width: 75px;
+}
+.product-list {
+  display: flex; /* Flexbox kullanarak ürünleri yan yana dizer */
+  flex-wrap: wrap; /* Satırı aşan ürünler bir alt satıra geçer */
+}
+.product {
+  margin: 5px;
+}
+:host::ng-deep {
+  .trash-button {
+    padding: 0 !important;
+    height: 20px !important;
+    width: 20px !important;
+  }
+
+  .insert-button {
+    margin: 0px;
+    padding: 8px 10px;
+  }
+
+}

@@ -1,0 +1,89 @@
+<div class="grid">
+    <div class="col-6">
+        <div class="mr-5">
+            <p-table [value]="aislesOfMarketA" [scrollable]="true" scrollHeight="400px">
+                <ng-template pTemplate="caption">
+                    <div class="flex justify-content-center mb-3">
+                        <h3>Market A</h3>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Reyon</th>
+                        <th>Tür</th>
+                        <th>Ürünler</th>
+                        <th> <p-button icon="pi pi-plus" styleClass="insert-button" label="Reyon Ekle" size="small"
+                                (onClick)="addAisle()" />
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-aisle>
+                    <tr>
+                        <td>
+                            <div>
+                                <span>{{ aisle.aisleNumber }} </span>
+                                <p-button icon="pi pi-trash" [text]="true" styleClass="trash-button"
+                                    severity="warning" />
+                            </div>
+                        </td>
+                        <td>{{ aisle.type }}</td>
+                        <td class="products-list"> @for (item of aisle.products; track item) {
+                            <span class="product"> <p-tag [value]="item" /></span>
+                            } @empty {
+                            <span> There are no items.</span>
+                            }
+                        </td>
+                        <td><p-button icon="pi pi-plus" label="Ürün Ekle" size="small" styleClass="insert-button" />
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+    <div class="col-6">
+        <div>
+            <p-table [value]="aislesOfMarketB" [scrollable]="true" scrollHeight="400px">
+                <ng-template pTemplate="caption">
+                    <div class="flex justify-content-center mb-3">
+                        <h3>Market B</h3>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Reyon</th>
+                        <th>Tür</th>
+                        <th>Ürünler</th>
+                        <th> <p-button icon="pi pi-plus" styleClass="insert-button" label="Reyon Ekle" size="small" />
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-aisle>
+                    <tr>
+                        <td>
+                            <div>
+                                <span>{{ aisle.aisleNumber }} </span>
+                                <p-button icon="pi pi-trash" [text]="true" styleClass="trash-button"
+                                    severity="warning" />
+                            </div>
+                        </td>
+                        <td>{{ aisle.type }}</td>
+                        <td class="products-list"> @for (item of aisle.products; track item) {
+                            <span class="product"> <p-tag [value]="item" /></span>
+                            } @empty {
+                            <span> There are no items.</span>
+                            }
+                        </td>
+                        <td><p-button icon="pi pi-plus" label="Ürün Ekle" size="small" styleClass="insert-button" />
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+
+@if (this.modalAisleAddData?.open){
+<app-modal-aisle-add [modalData]="this.modalAisleAddData"></app-modal-aisle-add>
+}
+
+<app-modal-product></app-modal-product>
