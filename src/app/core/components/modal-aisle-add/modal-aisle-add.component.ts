@@ -17,7 +17,7 @@ import { MessageService } from 'primeng/api';
   styleUrl: './modal-aisle-add.component.scss'
 })
 export class ModalAisleAddComponent implements OnInit {
-  private messageService: MessageService = inject(MessageService)
+  private messageService: MessageService = inject(MessageService);
   formBuilder: FormBuilder = inject(FormBuilder);
   aisleTypeData: any = ['Gıda', 'Temizlik', 'Kırtasiye', 'Kozmetik', 'Elektronik'];
   @Input() modalData: ModalData = new ModalData();
@@ -46,7 +46,7 @@ export class ModalAisleAddComponent implements OnInit {
     this.modalData.open = false;
   }
 
-  addAisle() {
+  summitForm() {
     if (this.aisleForm.valid) {
       this.aisleAdded.emit(this.aisleForm.getRawValue())
       this.modalData.open = false

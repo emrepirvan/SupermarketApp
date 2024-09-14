@@ -28,8 +28,8 @@
                         </td>
                         <td>{{ aisle.type }}</td>
                         <td class="products-list"> @for (product of aisle.products; track product) {
-                            <span class="product"> <p-button [label]="product"
-                                    (click)="openProductModal(aisle,ModalMode.EDIT)" /></span>
+                            <span class="product"> <p-button [label]="product.name"
+                                    (click)="openProductModal(aisle,ModalMode.EDIT,product.name)" /></span>
                             } @empty {
                             <span> Ürün Bulunmamaktadır.</span>
                             }
@@ -71,8 +71,8 @@
                         </td>
                         <td>{{ aisle.type }}</td>
                         <td class="products-list"> @for (product of aisle.products; track product) {
-                            <span class="product"> <p-button [label]="product"
-                                    (click)="openProductModal(aisle,ModalMode.EDIT)" /></span>
+                            <span class="product"> <p-button [label]="product.name"
+                                    (click)="openProductModal(aisle,ModalMode.EDIT,product.name)" /></span>
                             } @empty {
                             <span> Ürün Bulunmamaktadır.</span>
                             }
@@ -91,5 +91,5 @@
 <app-modal-aisle-add [modalData]="this.modalAisleAddData" (aisleAdded)="aisleAdded($event)"></app-modal-aisle-add>
 }
 @if (this.modalProductData.open){
-<app-modal-product [modalData]="this.modalProductData"></app-modal-product>
+<app-modal-product [modalData]="this.modalProductData" (productAddedOrEdited)="productAddedOrEdited($event)"></app-modal-product>
 }

@@ -18,15 +18,30 @@ export class BodyComponent {
   MarketType = MarketType;
   ModalMode = ModalMode;
   aislesOfMarketA: Aisle[] = [
-    { aisleNumber: 'R1', type: 'Gıda', products: ['Pirinç', 'Ekmek', 'Un', 'Makarna'] },
-    { aisleNumber: 'R2', type: 'Temizlik', products: ['Bez', 'Deterjan', 'Sabun', 'Sünger'] },
-    { aisleNumber: 'R3', type: 'Kırtasiye', products: ['Kalem', 'Defter', 'Silgi'] },
-    { aisleNumber: 'R4', type: 'Gıda', products: ['Pirinç', 'Un', 'Bulgur', 'Salça'] }];
+    {
+      marketType: MarketType.A, aisleNumber: 'R1', type: 'Gıda', products: [{ id: '21341235', name: 'Pirinç' }, { id: '2314234', name: 'Ekmek' }, { id: '235346', name: 'Un' }, { id: '45645', name: 'Makarna' }]
+    },
+    {
+      marketType: MarketType.A, aisleNumber: 'R2', type: 'Temizlik', products: [{ id: '3245', name: 'Bez' }, { id: '3246567', name: 'Deterjan' }, { id: '5435432', name: 'Sabun' }, { id: '1321312', name: 'Sünger' }]
+    },
+    {
+      marketType: MarketType.A, aisleNumber: 'R3', type: 'Kırtasiye', products: [{ id: '534534', name: 'Kalem' }, { id: '345345', name: 'Defter' }, { id: '15465436', name: 'Silgi' }]
+    },
+    {
+      marketType: MarketType.A, aisleNumber: 'R4', type: 'Gıda', products: [{ id: '654356435', name: 'Pirinç' }, { id: '43563456', name: 'Un' }, { id: '45363456', name: 'Bulgur' }, { id: '4364356435', name: 'Salça' }]
+
+    }];
 
   aislesOfMarketB: Aisle[] = [
-    { aisleNumber: 'R1', type: 'Gıda', products: ['Ekmek', 'Un', 'Makarna'] },
-    { aisleNumber: 'R2', type: 'Temizlik', products: ['Sabun', 'Toz', 'Bezi'] },
-    { aisleNumber: 'R3', type: 'Kırtasiye', products: ['Silgi', 'Kalemtraş', 'Kalem', 'Defter'] }]
+    {
+      marketType: MarketType.B, aisleNumber: 'R1', type: 'Gıda', products: [{ id: '43563456', name: 'Ekmek' }, { id: '43563456', name: 'Un' }, { id: '34564356', name: 'Makarna' }]
+    },
+    {
+      marketType: MarketType.B, aisleNumber: 'R2', type: 'Temizlik', products: [{ id: '45364356', name: 'Sabun' }, { id: '43563457', name: 'Toz' }, { id: '453756765', name: 'Bezi' }]
+    },
+    {
+      marketType: MarketType.B, aisleNumber: 'R3', type: 'Kırtasiye', products: [{ id: '765756', name: 'Silgi' }, { id: '12312543', name: 'Kalemtr aş' }, { id: '005474345121', name: 'Kalem' }, { id: '00213121', name: 'Defter' }]
+    }]
     ;
   modalAisleAddData: ModalData = new ModalData()
   modalProductData: ModalData = new ModalData()
@@ -37,7 +52,7 @@ export class BodyComponent {
     this.modalAisleAddData.open = true;
     this.modalAisleAddData.data.marketType = marketType;
     this.modalAisleAddData.data.nextAisleNumber = undefined;
-    let marketAisleData = marketType == MarketType.A ? this.aislesOfMarketA : this.aislesOfMarketB;
+    let marketAisleData = marketType == MarketType.B ? this.aislesOfMarketA : this.aislesOfMarketB;
 
     marketAisleData.forEach((value: Aisle, index: number, array: Aisle[]) => {
       if (this.modalAisleAddData.data.nextAisleNumber) return
@@ -76,7 +91,8 @@ export class BodyComponent {
     let newAisle: Aisle = {
       aisleNumber: AddedAisle.aisleNumber,
       type: AddedAisle.type,
-      products: []
+      products: [],
+      marketType: AddedAisle.marketType
     }
     const addedMarket = MarketType.A == AddedAisle.marketType ? this.aislesOfMarketA : this.aislesOfMarketB
     addedMarket.push(newAisle);
@@ -85,5 +101,15 @@ export class BodyComponent {
       const aisleB = parseInt(b.aisleNumber.substring(1));
       return aisleA - aisleB;
     })
+  }
+
+  productAddedOrEdited(productModalData: any) {
+    if (productModalData.newProductData) {
+      const market: Aisle[] = productModalData.aisleData.marketType == MarketType.A ? this.aislesOfMarketA : this.aislesOfMarketB;
+      const aisle = market.find((item: Aisle) => item.aisleNumber == productModalData.newProductData.aisle)
+      aisle?.products.push(productModalData.newProductData)
+    } else {
+
+    }
   }
 }

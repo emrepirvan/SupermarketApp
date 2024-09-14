@@ -6,54 +6,61 @@
             </span>
         </div>
     </ng-template>
-    <div class=" my-5">
-        <p-floatLabel>
-            <input id="username" type="text" class="w-full" pInputText />
-            <label for="username">Ürün ID</label>
-        </p-floatLabel>
-    </div>
-    <div class=" mb-5">
-        <p-floatLabel>
-            <input id="username" type="text" class="w-full" pInputText />
-            <label for="username">Ürün Adı</label>
-        </p-floatLabel>
-    </div>
-    @if (this.modalData.mode =='add') {
+    <form [formGroup]="productForm!">
 
-    <div class=" mb-5">
-        <p-floatLabel>
-            <input id="username" type="text" class="w-full" pInputText />
-            <label for="username">Eklenecek Reyon</label>
-        </p-floatLabel>
-    </div>
-    }@else if (this.modalData.mode =='edit') {
+        <div class=" my-5">
+            <p-floatLabel>
+                <input formControlName="id" id="id" type="text" class="w-full" pInputText />
+                <label for="id">Ürün ID</label>
+            </p-floatLabel>
+        </div>
+        <div class=" mb-5">
+            <p-floatLabel>
+                <input formControlName="name" id="name" type="text" class="w-full" pInputText />
+                <label for="name">Ürün Adı</label>
+            </p-floatLabel>
+        </div>
+        @if (this.modalData.mode =='add') {
+
+        <div class=" mb-5">
+            <p-floatLabel>
+                <input formControlName="aisle" id="aisle" type="text" class="w-full" pInputText />
+                <label for="aisle">Eklenecek Reyon</label>
+            </p-floatLabel>
+        </div>
+        }@else if (this.modalData.mode =='edit') {
 
 
-    <div class=" mb-5">
-        <p-floatLabel>
-            <input id="username" type="text" class="w-full" pInputText />
-            <label for="username">Bulunduğu Reyon Türü</label>
-        </p-floatLabel>
-    </div>
+        <div class=" mb-5">
+            <p-floatLabel>
+                <input id="username" type="text" class="w-full" pInputText />
+                <label for="username">Bulunduğu Reyon Türü</label>
+            </p-floatLabel>
+        </div>
 
-    <div class=" mb-5">
-        <p-floatLabel>
-            <input id="username" type="text" class="w-full" pInputText />
-            <label for="username">Taşınacak Marketi Seçiniz</label>
-        </p-floatLabel>
-    </div>
+        <div class=" mb-5">
+            <p-floatLabel>
+                <input id="username" type="text" class="w-full" pInputText />
+                <label for="username">Taşınacak Marketi Seçiniz</label>
+            </p-floatLabel>
+        </div>
 
-    <div class=" mb-5">
-        <p-floatLabel>
-            <input id="username" type="text" class="w-full" pInputText />
-            <label for="username">Taşınacak Reyonu Seçiniz (Market A)</label>
-        </p-floatLabel>
-    </div>
-    }
+        <div class=" mb-5">
+            <p-floatLabel>
+                <input id="username" type="text" class="w-full" pInputText />
+                <label for="username">Taşınacak Reyonu Seçiniz (Market A)</label>
+            </p-floatLabel>
+        </div>
+        }
+
+
+
+
+    </form>
 
 
 
     <ng-template pTemplate="footer">
-        <p-button label="Ekle" [outlined]="true" severity="secondary" (onClick)="modalData.open = false" />
+        <p-button label="Ekle" [outlined]="true" severity="secondary" (onClick)="this.summitForm()" />
     </ng-template>
 </p-dialog>
