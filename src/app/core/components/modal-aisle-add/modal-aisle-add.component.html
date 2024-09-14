@@ -1,0 +1,31 @@
+<p-dialog header="Header" [(visible)]="visible" [modal]="true" [style]="{ width: '25rem' }" (onHide)="onHide($event)">
+    <ng-template pTemplate="header">
+        <div class="inline-flex align-items-center justify-content-center gap-2">
+            <span class="font-bold white-space-nowrap">
+                Reyon Ekleme
+            </span>
+        </div>
+    </ng-template>
+    <div class=" my-5">
+        <p-floatLabel>
+            <input id="username" type="text" class="w-full" pInputText />
+            <label for="username">Reyon Adı</label>
+        </p-floatLabel>
+    </div>
+    <div class=" my-5">
+        <p-floatLabel>
+            <input id="username" type="text" class="w-full" pInputText />
+            <label for="username">Reyon Türü</label>
+        </p-floatLabel>
+    </div>
+    <div class=" my-5">
+        <p-floatLabel>
+            <input id="username" type="text" class="w-full" pInputText />
+            <label for="username">Eklenecek Market</label>
+        </p-floatLabel>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <p-button label="Ekle" [outlined]="true" severity="secondary" (onClick)="modalData.open = false" />
+    </ng-template>
+</p-dialog>
