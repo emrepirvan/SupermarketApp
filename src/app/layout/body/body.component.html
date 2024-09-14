@@ -27,13 +27,15 @@
                             </div>
                         </td>
                         <td>{{ aisle.type }}</td>
-                        <td class="products-list"> @for (item of aisle.products; track item) {
-                            <span class="product"> <p-tag [value]="item" /></span>
+                        <td class="products-list"> @for (product of aisle.products; track product) {
+                            <span class="product"> <p-button [label]="product"
+                                    (click)="openProductModal(aisle,'edit',product)" /></span>
                             } @empty {
                             <span> There are no items.</span>
                             }
                         </td>
-                        <td><p-button icon="pi pi-plus" label="Ürün Ekle" size="small" styleClass="insert-button" />
+                        <td><p-button icon="pi pi-plus" label="Ürün Ekle" size="small" styleClass="insert-button"
+                                (onClick)="openProductModal(aisle,'add')" />
                         </td>
                     </tr>
                 </ng-template>
@@ -53,7 +55,8 @@
                         <th>Reyon</th>
                         <th>Tür</th>
                         <th>Ürünler</th>
-                        <th> <p-button icon="pi pi-plus" styleClass="insert-button" label="Reyon Ekle" size="small" />
+                        <th> <p-button icon="pi pi-plus" styleClass="insert-button" label="Reyon Ekle" size="small"
+                                (onClick)="addAisle()" />
                         </th>
                     </tr>
                 </ng-template>
@@ -67,13 +70,15 @@
                             </div>
                         </td>
                         <td>{{ aisle.type }}</td>
-                        <td class="products-list"> @for (item of aisle.products; track item) {
-                            <span class="product"> <p-tag [value]="item" /></span>
+                        <td class="products-list"> @for (product of aisle.products; track product) {
+                            <span class="product"> <p-button [label]="product"
+                                    (click)="openProductModal(aisle,'edit',product)" /></span>
                             } @empty {
                             <span> There are no items.</span>
                             }
                         </td>
-                        <td><p-button icon="pi pi-plus" label="Ürün Ekle" size="small" styleClass="insert-button" />
+                        <td><p-button icon="pi pi-plus" label="Ürün Ekle" size="small" styleClass="insert-button"
+                                (onClick)="openProductModal(aisle,'add')" />
                         </td>
                     </tr>
                 </ng-template>
@@ -85,5 +90,6 @@
 @if (this.modalAisleAddData?.open){
 <app-modal-aisle-add [modalData]="this.modalAisleAddData"></app-modal-aisle-add>
 }
-
-<app-modal-product></app-modal-product>
+@if (this.modalProductData?.open){
+<app-modal-product [modalData]="this.modalProductData"></app-modal-product>
+}

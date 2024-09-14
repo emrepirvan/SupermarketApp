@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
-import { Aisle } from '../../core/models/aisle.model';
+import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { ModalAisleAddComponent } from "../../core/components/modal-aisle-add/modal-aisle-add.component";
 import { ModalProductComponent } from "../../core/components/modal-product/modal-product.component";
+import { Aisle } from '../../core/models/aisle.model';
 @Component({
   selector: 'app-body',
   standalone: true,
@@ -13,6 +13,7 @@ import { ModalProductComponent } from "../../core/components/modal-product/modal
   styleUrl: './body.component.scss'
 })
 export class BodyComponent {
+
   aislesOfMarketA: Aisle[] = [{
     aisleNumber: 'R1',
     type: 'Gıda',
@@ -45,10 +46,17 @@ export class BodyComponent {
     products: ['Silgi', 'Kalemtraş', 'Kalem', 'Defter']
   }];
   modalAisleAddData: any = {};
+  modalProductData: any = {};
 
 
   addAisle() {
     this.modalAisleAddData.open = true
   }
 
+  openProductModal(aisle: any, mode: string, product?: any) {
+    this.modalProductData.open = true;
+    this.modalProductData.mode = mode;
+    this.modalProductData.data = aisle;
+    this.modalProductData.selectedProduct = product
+  }
 }

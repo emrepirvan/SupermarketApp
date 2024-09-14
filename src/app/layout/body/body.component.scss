@@ -20,4 +20,12 @@ tr > th:last-child {
     padding: 8px 10px;
   }
 
+  .product .p-button {
+    margin: 1px 1px;
+    padding: 5px 5px;
+    .p-button-label {
+      font-weight: 600;
+      font-size: 11px;
+    }
+  }
 }
