@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, DebugElement } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { ModalAisleAddComponent } from "../../core/components/modal-aisle-add/modal-aisle-add.component";
 import { ModalProductComponent } from "../../core/components/modal-product/modal-product.component";
-import { Aisle } from '../../core/models/aisle.model';
+import { Aisle, Product } from '../../core/models/aisle.model';
 import { ModalData } from '../../core/models/modal-data.model';
 import { MarketType, ModalMode } from '../../core/services/enum.service';
 @Component({
@@ -70,7 +70,10 @@ export class BodyComponent {
     this.modalProductData.open = true;
     this.modalProductData.mode = mode;
     this.modalProductData.data.aisleData = aisle;
-    this.modalProductData.data.selectedProduct = product
+    this.modalProductData.data.selectedProduct = product;
+    this.modalProductData.data.availableAislesOfMarketA = this.aislesOfMarketA.filter(item => item.type == this.modalProductData.data.aisleData.type && item != this.modalProductData.data.aisleData)
+    this.modalProductData.data.availableAislesOfMarketB = this.aislesOfMarketB.filter(item => item.type == this.modalProductData.data.aisleData.type && item != this.modalProductData.data.aisleData)
+
   }
 
   deleteAisle(deletedAisle: Aisle, marketType: MarketType) {
@@ -104,12 +107,40 @@ export class BodyComponent {
   }
 
   productAddedOrEdited(productModalData: any) {
-    if (productModalData.newProductData) {
+    if (productModalData.newProductData) { // ADD 
       const market: Aisle[] = productModalData.aisleData.marketType == MarketType.A ? this.aislesOfMarketA : this.aislesOfMarketB;
       const aisle = market.find((item: Aisle) => item.aisleNumber == productModalData.newProductData.aisle)
       aisle?.products.push(productModalData.newProductData)
-    } else {
-
+      return
     }
+
+    const currentMarket: Aisle[] = productModalData.aisleData.marketType == MarketType.A ? this.aislesOfMarketA : this.aislesOfMarketB;
+    let currentAisle = currentMarket.find((item: Aisle) => item.aisleNumber == productModalData.aisleData.aisleNumber)
+    if (productModalData.deletedProduct) {//DELETE
+      if (currentAisle)
+        currentAisle.products = currentAisle.products.filter((product: Product) => product.id != productModalData.deletedProduct.id);
+      return
+    }
+    if (!productModalData.editedProduct.aisleToMove) { //EDİT
+      const editedProdoctData = currentAisle?.products.find((product: Product) => product.id == productModalData.editedProduct.id)
+      if (editedProdoctData)
+        editedProdoctData.name = productModalData.editedProduct.name
+    }
+    else {
+      if (currentAisle)//EDİT AND MOVE
+        currentAisle.products = currentAisle.products.filter((product: Product) => product.id != productModalData.editedProduct.id);
+
+      const targetMarket = productModalData.editedProduct.aisleToMove.marketType == MarketType.A ? this.aislesOfMarketA : this.aislesOfMarketB;
+
+      const targetAisle = targetMarket.find((item: Aisle) => item.aisleNumber == productModalData.editedProduct.aisleToMove.aisleNumber)
+
+      if (targetAisle) {
+        targetAisle.products.push({
+          id: productModalData.editedProduct.id,
+          name: productModalData.editedProduct.name
+        })
+      }
+    }
+
   }
 }

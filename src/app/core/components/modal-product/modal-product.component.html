@@ -33,34 +33,40 @@
 
         <div class=" mb-5">
             <p-floatLabel>
-                <input id="username" type="text" class="w-full" pInputText />
-                <label for="username">Bulunduğu Reyon Türü</label>
+                <p-dropdown formControlName="aisleCurrent" [options]="this.aisleTypeData" appendTo="body"
+                    styleClass="w-full" />
+                <label for="aisleCurrent">Bulunduğu Reyon Türü</label>
             </p-floatLabel>
         </div>
 
         <div class=" mb-5">
+
             <p-floatLabel>
-                <input id="username" type="text" class="w-full" pInputText />
+                <p-dropdown formControlName="marketToMove" [options]="this.marketTypeData" appendTo="body"
+                    (onChange)="this.changeMarket($event)" styleClass="w-full" />
                 <label for="username">Taşınacak Marketi Seçiniz</label>
             </p-floatLabel>
         </div>
 
         <div class=" mb-5">
+
             <p-floatLabel>
-                <input id="username" type="text" class="w-full" pInputText />
-                <label for="username">Taşınacak Reyonu Seçiniz (Market A)</label>
+                <p-dropdown formControlName="aisleToMove" [options]="this.matchedAisleTypeOfMarketData" appendTo="body"
+                    optionLabel="aisleNumber" emptyMessage="Uygun Reyon Bulunamadı" styleClass="w-full" />
+                <label for="aisleToMove">Taşınacak Reyonu Seçiniz
+                    @if (this.productForm?.get('marketToMove')?.value) { <span>
+                        {{'('+this.productForm?.get('marketToMove')?.value+')' }}
+                    </span>}
+                </label>
             </p-floatLabel>
         </div>
         }
-
-
-
-
     </form>
 
-
-
     <ng-template pTemplate="footer">
-        <p-button label="Ekle" [outlined]="true" severity="secondary" (onClick)="this.summitForm()" />
+        @if (this.modalData.mode=='edit') { <p-button (onClick)="deleteProduct()" label="Ürünü Sil" severity="danger"
+            outlined="true" />}
+        <p-button [label]="this.modalData.mode=='edit' ? 'Kaydet' : 'Ekle'" severity="success"
+            (onClick)="this.summitForm()" />
     </ng-template>
 </p-dialog>

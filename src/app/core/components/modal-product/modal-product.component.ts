@@ -8,7 +8,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
 import { ModalData } from '../../models/modal-data.model';
-import { ModalMode } from '../../services/enum.service';
+import { MarketType, ModalMode } from '../../services/enum.service';
 @Component({
   selector: 'app-modal-product',
   standalone: true,
@@ -23,9 +23,12 @@ export class ModalProductComponent {
   @Output() productAddedOrEdited: any = new EventEmitter();
   visible: boolean = false;
   productForm: FormGroup | undefined;
+  marketTypeData: any[] = [MarketType.A, MarketType.B]
+  aisleTypeData: any = ['Gıda', 'Temizlik', 'Kırtasiye', 'Kozmetik', 'Elektronik'];
+  matchedAisleTypeOfMarketData: any[] = [];
 
   ngOnInit(): void {
-    this.modalData
+
     this.visible = true;
     if (this.modalData.mode == ModalMode.ADD) {
       this.productForm = this.formBuilder.group({
@@ -33,15 +36,14 @@ export class ModalProductComponent {
         name: [undefined, Validators.required],
         aisle: [{ value: this.modalData.data.aisleData.aisleNumber, disabled: true }],
       })
-
     }
     else {
       this.productForm = this.formBuilder.group({
-        id: [undefined, Validators.required],
-        name: [undefined, Validators.required],
-        aisleCurrent: [{ value: undefined, disabled: true }],
-        marketToMove: [undefined, Validators.required],
-        aisleToMove: [undefined, Validators.required],
+        id: [{ value: this.modalData.data.selectedProduct.id, disabled: true }],
+        name: [this.modalData.data.selectedProduct.name, Validators.required],
+        aisleCurrent: [{ value: this.modalData.data.aisleData.type, disabled: true }],
+        marketToMove: [undefined],
+        aisleToMove: [undefined],
       })
     }
 
@@ -55,11 +57,21 @@ export class ModalProductComponent {
   summitForm() {
     if (!this.productForm) return
     if (this.productForm!.valid) {
-      let data = {
-        newProductData: this.productForm.getRawValue(),
-        aisleData: this.modalData.data.aisleData
+      if (this.modalData.mode == ModalMode.ADD) {
+        let data = {
+          newProductData: this.productForm.getRawValue(),
+          aisleData: this.modalData.data.aisleData
+        }
+        this.productAddedOrEdited.emit(data);
       }
-      this.productAddedOrEdited.emit(data);
+      else {
+        let data = {
+          editedProduct: this.productForm.getRawValue(),
+          aisleData: this.modalData.data.aisleData
+        }
+        this.productAddedOrEdited.emit(data);
+      }
+
       this.modalData.open = false
     }
     else {
@@ -69,5 +81,26 @@ export class ModalProductComponent {
         this.productForm.controls[formControl].markAsDirty()
       }
     }
+  }
+
+  changeMarket($event: any) {
+    if ($event.value == MarketType.A) {
+      this.matchedAisleTypeOfMarketData = this.modalData?.data?.availableAislesOfMarketA || []
+    } else if ($event.value == MarketType.B) {
+      this.matchedAisleTypeOfMarketData = this.modalData?.data?.availableAislesOfMarketB || []
+    }
+    else {
+      this.matchedAisleTypeOfMarketData = [];
+    }
+  }
+
+  deleteProduct() {
+    let data = {
+      deletedProduct: this.productForm!.getRawValue(),
+      aisleData: this.modalData.data.aisleData,
+
+    }
+    this.productAddedOrEdited.emit(data);
+    this.modalData.open = false
   }
 }
