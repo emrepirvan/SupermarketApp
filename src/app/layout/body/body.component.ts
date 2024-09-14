@@ -1,4 +1,4 @@
-import { Component, DebugElement } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
@@ -7,6 +7,7 @@ import { ModalProductComponent } from "../../core/components/modal-product/modal
 import { Aisle, Product } from '../../core/models/aisle.model';
 import { ModalData } from '../../core/models/modal-data.model';
 import { MarketType, ModalMode } from '../../core/services/enum.service';
+import { SearchedDataService } from '../../core/services/searched-data.service';
 @Component({
   selector: 'app-body',
   standalone: true,
@@ -14,7 +15,10 @@ import { MarketType, ModalMode } from '../../core/services/enum.service';
   templateUrl: './body.component.html',
   styleUrl: './body.component.scss'
 })
-export class BodyComponent {
+export class BodyComponent implements OnInit {
+
+  private searchedDataService: SearchedDataService = inject(SearchedDataService)
+
   MarketType = MarketType;
   ModalMode = ModalMode;
   aislesOfMarketA: Aisle[] = [
@@ -47,6 +51,11 @@ export class BodyComponent {
   modalProductData: ModalData = new ModalData()
 
 
+  ngOnInit(): void {
+    this.searchedDataService.currentStringData.subscribe(data => {
+      this.searched(data);
+    });
+  }
 
   addAisle(marketType: MarketType) {
     this.modalAisleAddData.open = true;
@@ -141,6 +150,20 @@ export class BodyComponent {
         })
       }
     }
+  }
+  searchValue = ''
 
+
+  searched(data: string) {
+    this.searchValue = data;
+
+  };
+
+  filterProductRows(aisle: Aisle): boolean {
+    return aisle.products.find((product: Product) => product.name.toLocaleLowerCase().includes(this.searchValue)) ? true : false
+  }
+
+  filterTables(tableData: Aisle[]) {
+    return tableData.find((item: Aisle) => item.products.find(item => item.name.toLocaleLowerCase().includes(this.searchValue))) ? true : false
   }
 }

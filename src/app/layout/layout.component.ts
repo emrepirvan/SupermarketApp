@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { NavbarComponent } from './navbar/navbar.component';
-import { BodyComponent } from "./body/body.component";
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { SearchedDataService } from '../core/services/searched-data.service';
+import { BodyComponent } from "./body/body.component";
+import { NavbarComponent } from './navbar/navbar.component';
 
 @Component({
   selector: 'app-layout',
@@ -10,7 +11,7 @@ import { ToastModule } from 'primeng/toast';
   imports: [NavbarComponent, BodyComponent, ToastModule],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss',
-  providers: [MessageService]
+  providers: [MessageService, SearchedDataService]
 })
 export class LayoutComponent {
 
