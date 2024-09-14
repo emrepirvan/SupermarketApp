@@ -6,26 +6,28 @@
             </span>
         </div>
     </ng-template>
-    <div class=" my-5">
-        <p-floatLabel>
-            <input id="username" type="text" class="w-full" pInputText />
-            <label for="username">Reyon Adı</label>
-        </p-floatLabel>
-    </div>
-    <div class=" my-5">
-        <p-floatLabel>
-            <input id="username" type="text" class="w-full" pInputText />
-            <label for="username">Reyon Türü</label>
-        </p-floatLabel>
-    </div>
-    <div class=" my-5">
-        <p-floatLabel>
-            <input id="username" type="text" class="w-full" pInputText />
-            <label for="username">Eklenecek Market</label>
-        </p-floatLabel>
-    </div>
-
+    <form [formGroup]="aisleForm">
+        <div class=" my-5">
+            <p-floatLabel>
+                <input formControlName="aisleNumber" id="username" type="text" class="w-full" pInputText />
+                <label for="username">Reyon Adı</label>
+            </p-floatLabel>
+        </div>
+        <div class=" my-5">
+            <p-floatLabel>
+                <p-dropdown formControlName="type" [options]="this.aisleTypeData" appendTo="body" styleClass="w-full"
+                    placeholder="Reyon Türü" />
+                <label for="username">Reyon Türü</label>
+            </p-floatLabel>
+        </div>
+        <div class=" my-5">
+            <p-floatLabel>
+                <input formControlName="marketType" id="username" type="text" class="w-full" pInputText />
+                <label for="username">Eklenecek Market</label>
+            </p-floatLabel>
+        </div>
+    </form>
     <ng-template pTemplate="footer">
-        <p-button label="Ekle" [outlined]="true" severity="secondary" (onClick)="modalData.open = false" />
+        <p-button label="Ekle" [outlined]="true" severity="secondary" (onClick)="addAisle()" />
     </ng-template>
 </p-dialog>
