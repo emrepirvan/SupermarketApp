@@ -61,7 +61,7 @@ export class BodyComponent implements OnInit {
     this.modalAisleAddData.open = true;
     this.modalAisleAddData.data.marketType = marketType;
     this.modalAisleAddData.data.nextAisleNumber = undefined;
-    let marketAisleData = marketType == MarketType.B ? this.aislesOfMarketA : this.aislesOfMarketB;
+    let marketAisleData = marketType == MarketType.B ? this.aislesOfMarketB : this.aislesOfMarketA;
 
     marketAisleData.forEach((value: Aisle, index: number, array: Aisle[]) => {
       if (this.modalAisleAddData.data.nextAisleNumber) return
@@ -160,10 +160,10 @@ export class BodyComponent implements OnInit {
   };
 
   filterProductRows(aisle: Aisle): boolean {
-    return aisle.products.find((product: Product) => product.name.toLocaleLowerCase().includes(this.searchValue)) ? true : false
+    return aisle.products.find((product: Product) => product.name.toLocaleLowerCase().includes(this.searchValue)) || this.searchValue === '' ? true : false
   }
 
   filterTables(tableData: Aisle[]) {
-    return tableData.find((item: Aisle) => item.products.find(item => item.name.toLocaleLowerCase().includes(this.searchValue))) ? true : false
+    return tableData.find((item: Aisle) => item.products.find(item => item.name.toLocaleLowerCase().includes(this.searchValue))) || this.searchValue === '' ? true : false
   }
 }
